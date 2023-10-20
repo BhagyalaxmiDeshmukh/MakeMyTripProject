@@ -44,7 +44,7 @@ public class SelectData
 	@FindBy(xpath="(//*[text()='Save on bookings with more than 9 travellers'])[2]")
 	private WebElement validationmsg;
 	
-	@FindBy(xpath="//*[@class='guestCounter font12 darkText gbCounter']//li")
+	@FindBy(xpath="(//*[@class='guestCounter font12 darkText gbCounter'])[1]//li")
 	private List<WebElement> adults;
 	
 	@FindBy(xpath="//*[@data-cy='children-3']")
@@ -52,7 +52,7 @@ public class SelectData
 	
 	@FindBy(xpath="//*[@class='commonModal__close']")
 	private WebElement signuppopup;
-	JavascriptExecutor js=(JavascriptExecutor)driver;
+	//JavascriptExecutor js=(JavascriptExecutor)driver;
 	
 	public SelectData(WebDriver driver)
 	{
@@ -132,41 +132,53 @@ public class SelectData
 		returndate.click();
 		
 		
-					
+		
 	}
 	
 	public String travellerAndClass() throws InterruptedException
 	{
 		String msg="";
-		String adu="";
-		Thread.sleep(2000);
-	 travellersandclass.click();
-		for(int i=0;i<adults.size();i++)
+		//String adu="";
+		WebElement value=null;
+		//Thread.sleep(2000);
+	    travellersandclass.click();
+	   Thread.sleep(2000);
+	/*	for(WebElement data:adults)
 		{
-			adu=adults.get(9).getText();
-			
-				//WebElement aa=adults.get(i);
-				//	aa.click();
-			if(adults.get(i).equals(">9"))
-			{
-				adults.get(i).click();
-				break;
-			}
-			else
-			{
+		String	adult=data.getText();
+		if(adult.contains(">9"))
+			{value=	data;			
+			value.click();
 				msg=validationmsg.getText();
-				System.out.println(msg);
-				
+		System.out.println(msg);
+							
 			}
-			
+		
+		} */
+	   for(int i=0;i<adults.size();i++)
+		{
+		String	adult=adults.get(i).getText();
+		int num=adult.indexOf('9');
+	//	boolean ispresent=adult.contains("5");
+		if(adult.contains(">9") )
+			{
+			value=adults.get(4);
+			value.click();
+										
+			}
+		else 
+		{
+			value=	adults.get(9);			
+			value.click();
+				msg=validationmsg.getText();
 		
 		}
-		System.out.println(adu);
-			
+		}
+	   System.out.println(msg);
 		children.click();
 		return msg;
 		
+		}
 	}
 	
-	
-}
+
